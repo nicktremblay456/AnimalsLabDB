@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsDB\\AnimalsDB.csproj": {}
+    "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsDB\\AnimalsDB.csproj": {
+    "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsDB\\AnimalsDB.csproj",
+        "projectUniqueName": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj",
         "projectName": "AnimalsDB",
-        "projectPath": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsDB\\AnimalsDB.csproj",
+        "projectPath": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj",
         "packagesPath": "C:\\Users\\Nick_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsDB\\obj\\",
+        "outputPath": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Nick_\\AppData\\Roaming\\NuGet\\NuGet.Config",

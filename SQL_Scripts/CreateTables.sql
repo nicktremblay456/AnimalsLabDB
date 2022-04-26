@@ -1,3 +1,5 @@
+-- create database animalsdb;
+
 create table animals (
 	AnimalID int auto_increment,
     
@@ -12,12 +14,14 @@ create table animals (
           Color = "Red" or Color = "Blue" or Color = "Green" or Color = "Purple"),
     
     primary key(AnimalID)
-);
+)Engine INNODB;
 
 create table owners (
 	OwnerID int auto_increment,
     AnimalID int not null,
     
+	OwnerName varchar(25) not null,
+
     primary key(OwnerID),
     foreign key(AnimalID) references animals(AnimalID)
-);
+)Engine INNODB;
