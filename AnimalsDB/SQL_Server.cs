@@ -92,11 +92,16 @@ namespace AnimalsDB
             return id;
         }
 
-        public List<Owner> GetOwners()
+        public List<dynamic> GetData(ETable table)
         {
-            List<Owner> owners = new List<Owner>();
-            string query = "SELECT * FROM owners";
+            List<dynamic> datas = new List<dynamic>();
+            string query = string.Empty;
 
+            switch(table)
+            {
+                case ETable.Animals: query = "SELECT * FROM animals"; break;
+                case ETable.Owners: query = "SELECT * FROM owners"; break;
+            }
             using (MySqlConnection cnn = new MySqlConnection(connectionString))
             {
                 try
@@ -106,7 +111,7 @@ namespace AnimalsDB
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Cannot open connection, {ex.Message}");
-                    return owners;
+                    return datas;
                 }
 
                 MySqlCommand cmd = new MySqlCommand(query, cnn);
@@ -114,53 +119,32 @@ namespace AnimalsDB
 
                 while (dataReader.Read())
                 {
-                    owners.Add(new Owner
-                    (
-                        (int)dataReader["OwnerID"],
-                        (string)dataReader["OwnerName"]
-                    ));
+                    switch (table)
+                    {
+                        case ETable.Animals:
+                            datas.Add(new Animal
+                            (
+                                (int)dataReader["AnimalID"],
+                                (int)dataReader["OwnerID"],
+                                (string)dataReader["AnimalType"],
+                                (string)dataReader["AnimalName"],
+                                (int)dataReader["Age"],
+                                (int)dataReader["Weigth"],
+                                (string)dataReader["Color"]
+                            ));
+                            break;
+                        case ETable.Owners:
+                            datas.Add(new Owner
+                            (
+                                (int)dataReader["OwnerID"],
+                                (string)dataReader["OwnerName"]
+                            ));
+                            break;
+                    }
                 }
             }
 
-            return owners;
-        }
-
-        public List<Animal> GetAnimals()
-        {
-            List<Animal> animals = new List<Animal>();
-            string query = "SELECT * FROM animals";
-
-            using (MySqlConnection cnn = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    cnn.Open();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Cannot open connection, {ex.Message}");
-                    return animals;
-                }
-
-                MySqlCommand cmd = new MySqlCommand(query, cnn);
-                MySqlDataReader dataReader = cmd.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    animals.Add(new Animal
-                    (
-                        (int)dataReader["AnimalID"],
-                        (int)dataReader["OwnerID"],
-                        (string)dataReader["AnimalType"],
-                        (string)dataReader["AnimalName"],
-                        (int)dataReader["Age"],
-                        (int)dataReader["Weigth"],
-                        (string)dataReader["Color"]
-                    ));
-                }
-            }
-
-            return animals;
+            return datas;
         }
     }
 }

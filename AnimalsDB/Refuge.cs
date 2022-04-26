@@ -5,16 +5,16 @@ namespace AnimalsDB
     public class Refuge
     {
         private SQL_Server server;
-        private List<Animal> m_Animals;
-        private List<Owner> m_Owners;
+        private List<dynamic> m_Animals;
+        private List<dynamic> m_Owners;
 
         public Refuge()
         {
             server = new SQL_Server();
 
             // Get data from SQL
-            m_Animals = server.GetAnimals();
-            m_Owners = server.GetOwners();
+            m_Owners = server.GetData(ETable.Owners);//server.GetOwners();
+            m_Animals = server.GetData(ETable.Animals);//server.GetAnimals();
         }
 
         public void Run()
