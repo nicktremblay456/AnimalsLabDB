@@ -4,17 +4,17 @@ namespace AnimalsDB
 { 
     public class Refuge
     {
-        private SQL_Server server;
+        private SQL_Server m_Server;
         private List<dynamic> m_Animals;
         private List<dynamic> m_Owners;
 
         public Refuge()
         {
-            server = new SQL_Server();
+            m_Server = new SQL_Server();
 
             // Get data from SQL
-            m_Owners = server.GetData(ETable.Owners);//server.GetOwners();
-            m_Animals = server.GetData(ETable.Animals);//server.GetAnimals();
+            m_Owners = m_Server.GetData(ETable.Owners);
+            m_Animals = m_Server.GetData(ETable.Animals);
         }
 
         public void Run()
@@ -24,17 +24,31 @@ namespace AnimalsDB
 
         private void Options()
         {
-            int input = 0;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
 
-            Console.WriteLine("1- Add animal\n" +
-                              "2- List of all animals\n" +
-                              "3- List of all owners\n" +
-                              "4- See the total amount of animals\n" +
-                              "5- See the total weigth of all animals\n" +
-                              "6- List of all animals with the color (Red, Blue and Purple)\n" +
-                              "7- Remove an animal from the list\n" +
-                              "8- Modify an animal name from the list\n" +
-                              "9- Quit");
+            int input = 0;
+            string[] optionsStr = new string[]
+            {
+                "╔═════════════════════════════════════════════════════════════════╗\n",
+                "║                         ¤ Options ¤                             ║\n",
+                "║                                                                 ║\n",
+                "║    1- Add animal                                                ║\n",
+                "║    2- List of all animals                                       ║\n",
+                "║    3- List of all owners                                        ║\n",
+                "║    4- See the total amount of animals                           ║\n",
+                "║    5- See the total weigth of all animals                       ║\n",
+                "║    6- List of all animals with the color (Red, Blue and Purple) ║\n",
+                "║    7- Remove an animal from the list                            ║\n",
+                "║    8- Modify an animal name from the list                       ║\n",
+                "║    9- Quit                                                      ║\n",
+                "║                                                                 ║\n",
+                "╚═════════════════════════════════════════════════════════════════╝\n",
+
+            };
+            foreach (string option in optionsStr)
+            {
+                Console.Write(string.Format("{0," + ((Console.WindowWidth / 2) + (option.Length / 2)) + "}", option));
+            }
 
             do { GetInput(ref input, "Select an option: "); }
             while (input <= 0 || input > 9);
@@ -66,7 +80,7 @@ namespace AnimalsDB
             input = Console.ReadLine();
         }
 
-        private bool CheckValidID(int id)
+        private bool IsValidID(int id)
         {
             foreach(Animal animal in m_Animals)
             {
@@ -79,6 +93,8 @@ namespace AnimalsDB
 
         private void AddAnimal()
         {
+            Console.BackgroundColor = ConsoleColor.DarkCyan;
+
             Animal animal = new Animal();
             Owner owner = new Owner();
             Console.Clear();
@@ -121,12 +137,12 @@ namespace AnimalsDB
             } while (owner.ownerName == string.Empty);
 
 
-            server.SQL_Query("INSERT INTO owners (OwnerName)" +
+            m_Server.SQL_Query("INSERT INTO owners (OwnerName)" +
                             $"VALUES ('{owner.ownerName}')");
-            animal.ownerID = server.GetMaxID(ETable.Owners);
+            animal.ownerID = m_Server.GetMaxID(ETable.Owners);
             
 
-            server.SQL_Query("INSERT INTO animals (OwnerID, AnimalType, AnimalName, Age, Weigth, Color)" +
+            m_Server.SQL_Query("INSERT INTO animals (OwnerID, AnimalType, AnimalName, Age, Weigth, Color)" +
                             $"VALUES ('{animal.ownerID}', '{animal.type}', '{animal.name}', '{animal.age}', '{animal.weigth}', '{animal.color}');");
 
             // Added to a list to keep track on data without making query every time we add something
@@ -138,6 +154,8 @@ namespace AnimalsDB
 
         private void GetAnimalsList()
         {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+
             Console.Clear();
             int input = 0;
 
@@ -158,6 +176,8 @@ namespace AnimalsDB
 
         private void GetOwnersList()
         {
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+
             Console.Clear();
             int input = 0;
 
@@ -177,6 +197,8 @@ namespace AnimalsDB
 
         private void GetAnimalsAmount()
         {
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+
             Console.Clear();
             int input = 0;
 
@@ -193,6 +215,8 @@ namespace AnimalsDB
 
         private void GetTotalWeigth()
         {
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+
             Console.Clear();
             int input = 0;
 
@@ -218,6 +242,8 @@ namespace AnimalsDB
 
         private void GetAnimalByColor()
         {
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+
             Console.Clear();
             int input = 0;
 
@@ -246,12 +272,14 @@ namespace AnimalsDB
 
         private void RemoveAnimal()
         {
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+
             Console.Clear();
 
             int index = 0;
             int inputId = 0;
             do { GetInput(ref inputId, "Enter animal id to remove: "); }
-            while (!CheckValidID(inputId));
+            while (!IsValidID(inputId));
 
 
             for (int i = 0; i < m_Animals.Count; i++)
@@ -262,7 +290,7 @@ namespace AnimalsDB
                     break;
                 }
             }
-            server.SQL_Query($"DELETE FROM animals WHERE AnimalID = '{inputId}'");
+            m_Server.SQL_Query($"DELETE FROM animals WHERE AnimalID = '{inputId}'");
             m_Animals.RemoveAt(index);
 
             Console.Clear();
@@ -276,7 +304,7 @@ namespace AnimalsDB
             int index = 0;
             int inputId = 0;
             do { GetInput(ref inputId, "Enter animal id to modify: "); }
-            while (!CheckValidID(inputId));
+            while (!IsValidID(inputId));
 
             string inputName = string.Empty;
             do { GetInput(ref inputName, "Enter the new name: "); }
@@ -291,7 +319,7 @@ namespace AnimalsDB
                 }
             }
 
-            server.SQL_Query($"UPDATE animals SET AnimalName = '{inputName}' WHERE AnimalID = '{inputId}'");
+            m_Server.SQL_Query($"UPDATE animals SET AnimalName = '{inputName}' WHERE AnimalID = '{inputId}'");
             m_Animals[index].name = inputName;
 
             Console.Clear();

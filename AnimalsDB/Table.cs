@@ -4,17 +4,17 @@
     {
         public static void PrintLine(int tableWidth)
         {
-            Console.WriteLine(new String('-', tableWidth));
+            Console.WriteLine(new String('═', tableWidth));
         }
 
         public static void PrintRow(int tableWidth, params string[] columns)
         {
             int width = (tableWidth - columns.Length) / columns.Length;
-            string row = "|";
+            string row = "║";
 
             foreach (string column in columns)
             {
-                row += AlignCenter(column, width);
+                row += AlignCenter(column, width) + "║";
             }
 
             Console.WriteLine(row);

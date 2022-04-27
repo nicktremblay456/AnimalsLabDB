@@ -33,26 +33,6 @@ namespace AnimalsDB
             }
         }
 
-        public bool IsConnected()
-        {
-            using (MySqlConnection cnn = new MySqlConnection(connectionString))
-            {
-                try
-                {
-                    cnn.Open();
-                    if (cnn.State == System.Data.ConnectionState.Open)
-                        return true;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Cannot open connection {ex.Message}");
-                    return false;
-                }
-            }
-
-            return false;
-        }
-
         public int GetMaxID(ETable table)
         {
             string query = string.Empty;
