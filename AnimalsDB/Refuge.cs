@@ -168,15 +168,23 @@ namespace AnimalsDB
             Console.Clear();
             int input = 0;
 
-            Table.PrintRow(73, "ID", "Type", "Name", "Age", "Weigth", "Color", "Owner");
-            for (int i = 0, j = 0; i < m_Animals.Count && j < m_Owners.Count; i++, j++)
+            Table.PrintRow(71, "ID", "Type", "Name", "Age", "Weigth", "Color", "Owner");
+            if (m_Animals.Count > 0 && m_Owners.Count > 0)
             {
-                Table.PrintLine(73);
-                Table.PrintRow(73, $"{m_Animals[i].animalID}", $"{m_Animals[i].type}", $"{m_Animals[i].name}", $"{m_Animals[i].age}", $"{m_Animals[i].weigth}", 
-                                   $"{m_Animals[i].color}", $"{m_Owners[j].ownerName}");
+                for (int i = 0, j = 0; i < m_Animals.Count && j < m_Owners.Count; i++, j++)
+                {
+                    Table.PrintLine(73);
+                    Table.PrintRow(73, $"{m_Animals[i].animalID}", $"{m_Animals[i].type}", $"{m_Animals[i].name}", $"{m_Animals[i].age}", $"{m_Animals[i].weigth}", 
+                                       $"{m_Animals[i].color}", $"{m_Owners[j].ownerName}");
+                }
+            }
+            else
+            {
+                Table.PrintLine(70);
+                Table.PrintRow(70, "Empty");
             }
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { GetInput(ref input, "\nEnter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -191,13 +199,21 @@ namespace AnimalsDB
             int input = 0;
 
             Table.PrintRow(10, "Owner");
-            foreach(Owner owner in m_Owners)
+            if (m_Animals.Count > 0 && m_Owners.Count > 0)
+            {
+                foreach(Owner owner in m_Owners)
+                {
+                    Table.PrintLine(10);
+                    Table.PrintRow(10, $"{owner.ownerName}");
+                }
+            }
+            else
             {
                 Table.PrintLine(10);
-                Table.PrintRow(10, $"{owner.ownerName}");
+                Table.PrintRow(10, "Empty");
             }
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { GetInput(ref input, "\nEnter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -215,7 +231,7 @@ namespace AnimalsDB
             Table.PrintLine(10);
             Table.PrintRow(10, $"{m_Animals.Count}");
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { GetInput(ref input, "\nEnter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -242,7 +258,7 @@ namespace AnimalsDB
             Table.PrintLine(15);
             Table.PrintRow(15, $"{weigth}");
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { GetInput(ref input, "\nEnter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -257,19 +273,27 @@ namespace AnimalsDB
             int input = 0;
 
             string color = string.Empty;
-            Console.WriteLine("Existing Color (don't forget Maj on first letter) -> White, Black, Beige, Grey, Blond, Red, Blue, Green, Purple");
-            do { GetInput(ref color, "Enter a color to find: "); }
+            Console.WriteLine("Existing Color -> White, Black, Beige, Grey, Blond, Red, Blue, Green, Purple");
+            do { GetInput(ref color, "\nEnter a color to find: "); }
             while (color == string.Empty);
 
             Table.PrintRow(65, "ID", "Type", "Name", "Age", "Weigth", "Color", "Owner");
-            for (int i = 0, j = 0; i < m_Animals.Count && j < m_Owners.Count; i++, j++)
+            if (m_Animals.Count > 0 && m_Owners.Count > 0)
             {
-                if (color == m_Animals[i].color)
+                for (int i = 0, j = 0; i < m_Animals.Count && j < m_Owners.Count; i++, j++)
                 {
-                    Table.PrintLine(65);
-                    Table.PrintRow(65, $"{m_Animals[i].animalID}", $"{m_Animals[i].type}", $"{m_Animals[i].name}", 
-                                       $"{m_Animals[i].age}", $"{m_Animals[i].weigth}", $"{m_Animals[i].color}", $"{m_Owners[j].ownerName}");
+                    if (color == m_Animals[i].color)
+                    {
+                        Table.PrintLine(65);
+                        Table.PrintRow(65, $"{m_Animals[i].animalID}", $"{m_Animals[i].type}", $"{m_Animals[i].name}", 
+                                           $"{m_Animals[i].age}", $"{m_Animals[i].weigth}", $"{m_Animals[i].color}", $"{m_Owners[j].ownerName}");
+                    }
                 }
+            }
+            else
+            {
+                Table.PrintLine(65);
+                Table.PrintRow(65, "None");
             }
 
             do { GetInput(ref input, "Enter 1 to return to the main menu: "); }

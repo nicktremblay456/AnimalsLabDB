@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj": {}
+    "C:\\Users\\Nic\\Desktop\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj": {
+    "C:\\Users\\Nic\\Desktop\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj",
+        "projectUniqueName": "C:\\Users\\Nic\\Desktop\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj",
         "projectName": "AnimalsDB",
-        "projectPath": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj",
-        "packagesPath": "C:\\Users\\Nick_\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Nick_\\OneDrive\\Bureau\\AnimalsLabDB\\AnimalsDB\\obj\\",
+        "projectPath": "C:\\Users\\Nic\\Desktop\\AnimalsLabDB\\AnimalsDB\\AnimalsDB.csproj",
+        "packagesPath": "C:\\Users\\Nic\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Nic\\Desktop\\AnimalsLabDB\\AnimalsDB\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Nick_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Nic\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
