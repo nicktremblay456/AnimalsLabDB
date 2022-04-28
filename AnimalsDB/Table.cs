@@ -14,6 +14,7 @@
 
             foreach (string column in columns)
             {
+                Thread.Sleep(50);
                 row += AlignCenter(column, width) + "║";
             }
 
@@ -26,6 +27,32 @@
 
             if (string.IsNullOrEmpty(txt)) return new string(' ', width);
             else return txt.PadRight(width - (width - txt.Length) / 2).PadLeft(width);
+        }
+
+        public static void PrintOptions()
+        {
+            string[] optionsStr = new string[]
+            {
+                "╔══════════════════════════════════════════════════════╗\n",
+                "║                  ¤ Options ¤                         ║\n",
+                "║                                                      ║\n",
+                "║    1- Add animal                                     ║\n",
+                "║    2- List of all animals                            ║\n",
+                "║    3- List of all owners                             ║\n",
+                "║    4- See the total amount of animals                ║\n",
+                "║    5- See the total weigth of all animals            ║\n",
+                "║    6- List of all animals with the selected color    ║\n",
+                "║    7- Remove an animal from the list                 ║\n",
+                "║    8- Modify an animal name from the list            ║\n",
+                "║    9- Quit                                           ║\n",
+                "║                                                      ║\n",
+                "╚══════════════════════════════════════════════════════╝\n"
+            };
+            foreach (string option in optionsStr)
+            {
+                Thread.Sleep(50);
+                Console.Write(string.Format("{0," + ((Console.WindowWidth / 2) + (option.Length / 2)) + "}", option));
+            }
         }
     }
 }

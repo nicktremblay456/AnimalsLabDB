@@ -24,34 +24,15 @@ namespace AnimalsDB
 
         private void Options()
         {
+            Console.Title = "¤ Main Menu ¤";
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
 
             int input = 0;
-            string[] optionsStr = new string[]
-            {
-                "╔═════════════════════════════════════════════════════════════════╗\n",
-                "║                         ¤ Options ¤                             ║\n",
-                "║                                                                 ║\n",
-                "║    1- Add animal                                                ║\n",
-                "║    2- List of all animals                                       ║\n",
-                "║    3- List of all owners                                        ║\n",
-                "║    4- See the total amount of animals                           ║\n",
-                "║    5- See the total weigth of all animals                       ║\n",
-                "║    6- List of all animals with the color (Red, Blue and Purple) ║\n",
-                "║    7- Remove an animal from the list                            ║\n",
-                "║    8- Modify an animal name from the list                       ║\n",
-                "║    9- Quit                                                      ║\n",
-                "║                                                                 ║\n",
-                "╚═════════════════════════════════════════════════════════════════╝\n"
-            };
-            foreach (string option in optionsStr)
-            {
-                Console.Write(string.Format("{0," + ((Console.WindowWidth / 2) + (option.Length / 2)) + "}", option));
-            }
+            Table.PrintOptions();
 
             string txt = "Select an option: ";
-            do { GetInput(ref input, string.Format("{0," + ((Console.WindowWidth / 2) + (txt.Length / 2)) + "}", txt)); }
+            do { Input.GetInput(ref input, string.Format("{0," + ((Console.WindowWidth / 2) + (txt.Length / 2)) + "}", txt)); }
             while (input <= 0 || input > 9);
 
             switch (input)
@@ -68,21 +49,6 @@ namespace AnimalsDB
             }
         }
 
-        private void GetInput(ref int input, string txt)
-        {
-            Console.Write(txt);
-            try { input = int.Parse(Console.ReadLine()); }
-            catch { input = -1; }// Just a random number to make sure it will be refused, to prompt user again.
-        }
-
-        private void GetInput(ref string input, string txt)
-        {
-            Console.Write(txt);
-            input = Console.ReadLine();
-            if (input != null)
-                input = FirstCharToUpper(ref input);
-        }
-
         private bool IsValidID(int id)
         {
             foreach(Animal animal in m_Animals)
@@ -94,18 +60,9 @@ namespace AnimalsDB
             return false;
         }
 
-        public string FirstCharToUpper(ref string input)
-        {
-            switch (input)
-            {
-                case null: throw new ArgumentNullException(nameof(input));
-                case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
-                default: return input[0].ToString().ToUpper() + input.Substring(1);
-            }
-        }
-
         private void AddAnimal()
         {
+            Console.Title = "¤ Add Animal ¤";
             Console.BackgroundColor = ConsoleColor.DarkCyan;
 
             Animal animal = new Animal();
@@ -114,32 +71,32 @@ namespace AnimalsDB
 
             do
             {
-                GetInput(ref animal.type, "What type of animal is it? Dog, Cat or Fish? : ");
+                Input.GetInput(ref animal.type, "What type of animal is it? Dog, Cat or Fish? : ");
                 Console.Clear();
             } while (animal.type.ToLower() != "dog" && animal.type.ToLower() != "cat" && animal.type.ToLower() != "fish");
             do
             {
-                GetInput(ref animal.name, "Enter the name: ");
+                Input.GetInput(ref animal.name, "Enter the name: ");
                 Console.Clear();
             } while (animal.name == string.Empty);
             do
             {
-                GetInput(ref animal.age, "Enter the age: ");
+                Input.GetInput(ref animal.age, "Enter the age: ");
                 Console.Clear();
             } while (animal.age < 0);
             do
             {
-                GetInput(ref animal.weigth, "Enter the weigth: ");
+                Input.GetInput(ref animal.weigth, "Enter the weigth: ");
                 Console.Clear();
             } while (animal.weigth <= 0);
             do
             {
-                GetInput(ref animal.color, "Enter the color: ");
+                Input.GetInput(ref animal.color, "Enter the color: ");
                 Console.Clear();
             } while (animal.color == string.Empty);
             do
             {
-                GetInput(ref owner.ownerName, "Enter owner name: ");
+                Input.GetInput(ref owner.ownerName, "Enter owner name: ");
                 Console.Clear();
             } while (owner.ownerName == string.Empty);
 
@@ -163,6 +120,7 @@ namespace AnimalsDB
 
         private void GetAnimalsList()
         {
+            Console.Title = "¤ Animal List ¤";
             Console.BackgroundColor = ConsoleColor.DarkGreen;
 
             Console.Clear();
@@ -176,7 +134,7 @@ namespace AnimalsDB
                                    $"{m_Animals[i].color}", $"{m_Owners[j].ownerName}");
             }
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { Input.GetInput(ref input, "Enter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -185,6 +143,7 @@ namespace AnimalsDB
 
         private void GetOwnersList()
         {
+            Console.Title = "¤ Owner List ¤";
             Console.BackgroundColor = ConsoleColor.DarkGreen;
 
             Console.Clear();
@@ -197,7 +156,7 @@ namespace AnimalsDB
                 Table.PrintRow(10, $"{owner.ownerName}");
             }
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { Input.GetInput(ref input, "Enter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -206,6 +165,7 @@ namespace AnimalsDB
 
         private void GetAnimalsAmount()
         {
+            Console.Title = "¤ Total number of animals ¤";
             Console.BackgroundColor = ConsoleColor.DarkRed;
 
             Console.Clear();
@@ -215,7 +175,7 @@ namespace AnimalsDB
             Table.PrintLine(10);
             Table.PrintRow(10, $"{m_Animals.Count}");
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { Input.GetInput(ref input, "Enter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -224,6 +184,7 @@ namespace AnimalsDB
 
         private void GetTotalWeigth()
         {
+            Console.Title = "¤ Total weigth ¤";
             Console.BackgroundColor = ConsoleColor.DarkRed;
 
             Console.Clear();
@@ -242,7 +203,7 @@ namespace AnimalsDB
             Table.PrintLine(15);
             Table.PrintRow(15, $"{weigth}");
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { Input.GetInput(ref input, "Enter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -251,6 +212,7 @@ namespace AnimalsDB
 
         private void GetAnimalByColor()
         {
+            Console.Title = "¤ List of animal with a specific color ¤";
             Console.BackgroundColor = ConsoleColor.DarkYellow;
 
             Console.Clear();
@@ -258,7 +220,7 @@ namespace AnimalsDB
 
             string color = string.Empty;
             Console.WriteLine("Existing Color (don't forget Maj on first letter) -> White, Black, Beige, Grey, Blond, Red, Blue, Green, Purple");
-            do { GetInput(ref color, "Enter a color to find: "); }
+            do { Input.GetInput(ref color, "Enter a color to find: "); }
             while (color == string.Empty);
 
             Table.PrintRow(65, "ID", "Type", "Name", "Age", "Weigth", "Color", "Owner");
@@ -272,7 +234,7 @@ namespace AnimalsDB
                 }
             }
 
-            do { GetInput(ref input, "Enter 1 to return to the main menu: "); }
+            do { Input.GetInput(ref input, "Enter 1 to return to the main menu: "); }
             while (input != 1);
 
             Console.Clear();
@@ -281,6 +243,7 @@ namespace AnimalsDB
 
         private void RemoveAnimal()
         {
+            Console.Title = "¤ Removing animal ¤";
             Console.BackgroundColor = ConsoleColor.DarkGray;
 
             Console.Clear();
@@ -288,7 +251,7 @@ namespace AnimalsDB
             int index = 0;
             int inputId = 0;
             Console.WriteLine("Enter -1 to return to the main menu");
-            do { GetInput(ref inputId, "Enter animal id to remove: "); }
+            do { Input.GetInput(ref inputId, "Enter animal id to remove: "); }
             while (!IsValidID(inputId));
 
             if (inputId != 0)
@@ -311,15 +274,16 @@ namespace AnimalsDB
 
         private void ModifyAnimalName()
         {
+            Console.Title = "¤ Modify owner name ¤";
             Console.Clear();
             
             int index = 0;
             int inputId = 0;
-            do { GetInput(ref inputId, "Enter animal id to modify: "); }
+            do { Input.GetInput(ref inputId, "Enter animal id to modify: "); }
             while (!IsValidID(inputId));
 
             string inputName = string.Empty;
-            do { GetInput(ref inputName, "Enter the new name: "); }
+            do { Input.GetInput(ref inputName, "Enter the new name: "); }
             while (inputName == string.Empty);
 
             for (int i = 0; i < m_Animals.Count; i++)
