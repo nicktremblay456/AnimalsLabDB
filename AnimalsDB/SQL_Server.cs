@@ -10,7 +10,24 @@ namespace AnimalsDB
 
     public class SQL_Server
     {
-        private string connectionString = "server=localhost;database=animalsdb;uid=root;pwd=;";
+        private string connectionString = "server=127.0.0.1;database=animalsdb;uid=root;pwd=;";
+
+        public void ConnectToDataBase()
+        {
+            using (MySqlConnection cnn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    cnn.Open();
+                    if (cnn.State == System.Data.ConnectionState.Open)
+                        Console.WriteLine("The connection to the DB is functional");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Unable to open connection, {ex.Message}");
+                }
+            }
+        }
 
         public void SQL_Query(string query)
         {

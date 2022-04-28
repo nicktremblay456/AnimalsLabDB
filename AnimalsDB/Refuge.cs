@@ -25,6 +25,7 @@ namespace AnimalsDB
         private void Options()
         {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
 
             int input = 0;
             string[] optionsStr = new string[]
@@ -42,15 +43,15 @@ namespace AnimalsDB
                 "║    8- Modify an animal name from the list                       ║\n",
                 "║    9- Quit                                                      ║\n",
                 "║                                                                 ║\n",
-                "╚═════════════════════════════════════════════════════════════════╝\n",
-
+                "╚═════════════════════════════════════════════════════════════════╝\n"
             };
             foreach (string option in optionsStr)
             {
                 Console.Write(string.Format("{0," + ((Console.WindowWidth / 2) + (option.Length / 2)) + "}", option));
             }
 
-            do { GetInput(ref input, "Select an option: "); }
+            string txt = "Select an option: ";
+            do { GetInput(ref input, string.Format("{0," + ((Console.WindowWidth / 2) + (txt.Length / 2)) + "}", txt)); }
             while (input <= 0 || input > 9);
 
             switch (input)
@@ -78,6 +79,8 @@ namespace AnimalsDB
         {
             Console.Write(txt);
             input = Console.ReadLine();
+            if (input != null)
+                input = FirstCharToUpper(ref input);
         }
 
         private bool IsValidID(int id)
@@ -91,6 +94,16 @@ namespace AnimalsDB
             return false;
         }
 
+        public string FirstCharToUpper(ref string input)
+        {
+            switch (input)
+            {
+                case null: throw new ArgumentNullException(nameof(input));
+                case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
+                default: return input[0].ToString().ToUpper() + input.Substring(1);
+            }
+        }
+
         private void AddAnimal()
         {
             Console.BackgroundColor = ConsoleColor.DarkCyan;
@@ -101,47 +114,43 @@ namespace AnimalsDB
 
             do
             {
-                GetInput(ref animal.type, "What type of animal is it? Dog, Cat or fish? : ");
+                GetInput(ref animal.type, "What type of animal is it? Dog, Cat or Fish? : ");
                 Console.Clear();
-            } while (animal.type.ToLower() != "dog" && animal.type.ToLower() != "cat" && animal.type.ToLower() != "Fish");
-
+            } while (animal.type.ToLower() != "dog" && animal.type.ToLower() != "cat" && animal.type.ToLower() != "fish");
             do
             {
                 GetInput(ref animal.name, "Enter the name: ");
                 Console.Clear();
             } while (animal.name == string.Empty);
-
             do
             {
                 GetInput(ref animal.age, "Enter the age: ");
                 Console.Clear();
             } while (animal.age < 0);
-
             do
             {
                 GetInput(ref animal.weigth, "Enter the weigth: ");
                 Console.Clear();
             } while (animal.weigth <= 0);
-
-
             do
             {
                 GetInput(ref animal.color, "Enter the color: ");
                 Console.Clear();
             } while (animal.color == string.Empty);
-
             do
             {
                 GetInput(ref owner.ownerName, "Enter owner name: ");
                 Console.Clear();
             } while (owner.ownerName == string.Empty);
 
-
+            // Get the correct id to keep m_Animals and m_Owners values updated
+            animal.ownerID = m_Server.GetMaxID(ETable.Owners) + 1;
+            animal.animalID = m_Server.GetMaxID(ETable.Animals) + 1;
+            
+            // Add the owner to the db
             m_Server.SQL_Query("INSERT INTO owners (OwnerName)" +
                             $"VALUES ('{owner.ownerName}')");
-            animal.ownerID = m_Server.GetMaxID(ETable.Owners);
-            
-
+            // Add the animal to the db
             m_Server.SQL_Query("INSERT INTO animals (OwnerID, AnimalType, AnimalName, Age, Weigth, Color)" +
                             $"VALUES ('{animal.ownerID}', '{animal.type}', '{animal.name}', '{animal.age}', '{animal.weigth}', '{animal.color}');");
 
@@ -278,20 +287,23 @@ namespace AnimalsDB
 
             int index = 0;
             int inputId = 0;
+            Console.WriteLine("Enter -1 to return to the main menu");
             do { GetInput(ref inputId, "Enter animal id to remove: "); }
             while (!IsValidID(inputId));
 
-
-            for (int i = 0; i < m_Animals.Count; i++)
+            if (inputId != 0)
             {
-                if (inputId == m_Animals[i].animalID)
+                for (int i = 0; i < m_Animals.Count; i++)
                 {
-                    index = i;
-                    break;
+                    if (inputId == m_Animals[i].animalID)
+                    {
+                        index = i;
+                        break;
+                    }
                 }
+                m_Server.SQL_Query($"DELETE FROM animals WHERE AnimalID = '{inputId}'");
+                m_Animals.RemoveAt(index);
             }
-            m_Server.SQL_Query($"DELETE FROM animals WHERE AnimalID = '{inputId}'");
-            m_Animals.RemoveAt(index);
 
             Console.Clear();
             Options();
